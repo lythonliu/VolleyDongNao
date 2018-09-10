@@ -1,14 +1,12 @@
 package com.example.administrator.volleydongnao;
 
-import android.animation.ValueAnimator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.administrator.volleydongnao.http.Volley;
-import com.example.administrator.volleydongnao.http.interfaces.IDataListener;
+import com.example.administrator.volleydongnao.http.interfaces.IRequestCallBack;
 
 public class MainActivity extends com.lythonliu.LinkAppCompatActivity {
 
@@ -17,22 +15,17 @@ public class MainActivity extends com.lythonliu.LinkAppCompatActivity {
         return BuildConfig.APP_NAME;
     }
 
-    public  static  final String url="http://192.168.100.24:8080/UserRecord/LoginServlet";
-    private static final String TAG = "dongnao";
-    TextView textView;
+    public  static  final String URL_LoginServlet ="http://192.168.100.24:8080/UserRecord/LoginServlet";
+    private static final String TAG = "MainActivity";
+    TextView content_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView= (TextView) findViewById(R.id.content);
+        content_tv = (TextView) findViewById(R.id.content_tv);
 
     }
 
-    /**
-     *  1
-     *  2
-     * @param view
-     */
     public  void login(View view)
     {
         User user=new User();
@@ -40,10 +33,10 @@ public class MainActivity extends com.lythonliu.LinkAppCompatActivity {
         user.setPassword("123456");
         for (int i=0;i<50;i++)
         {
-            Volley.sendRequest(user, url, LoginRespense.class, new IDataListener<LoginRespense>() {
+            Volley.sendRequest(user, URL_LoginServlet, LoginBean.class, new IRequestCallBack<LoginBean>() {
                 @Override
-                public void onSuccess(LoginRespense loginRespense) {
-                    Log.i(TAG,loginRespense.toString());
+                public void onSuccess(LoginBean result) {
+                    Log.i(TAG, result.toString());
                 }
 
                 @Override

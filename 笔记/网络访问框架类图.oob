@@ -1968,7 +1968,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Creator>Administrator</a:Creator>
 <a:ModificationDate>1484307009</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
-<a:DataType>requestInfo</a:DataType>
+<a:DataType>requestData</a:DataType>
 <a:Attribute.Visibility>-</a:Attribute.Visibility>
 </o:Attribute>
 <o:Attribute Id="o57">
@@ -2108,8 +2108,8 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:Attribute>
 <o:Attribute Id="o65">
 <a:ObjectID>36202A98-2900-4E58-B528-FDC005F3B02C</a:ObjectID>
-<a:Name>requestData</a:Name>
-<a:Code>requestData</a:Code>
+<a:Name>byteArray</a:Name>
+<a:Code>byteArray</a:Code>
 <a:CreationDate>1484307771</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
 <a:ModificationDate>1484307782</a:ModificationDate>

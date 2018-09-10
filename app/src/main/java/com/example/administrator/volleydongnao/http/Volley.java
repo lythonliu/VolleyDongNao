@@ -1,6 +1,6 @@
 package com.example.administrator.volleydongnao.http;
 
-import com.example.administrator.volleydongnao.http.interfaces.IDataListener;
+import com.example.administrator.volleydongnao.http.interfaces.IRequestCallBack;
 import com.example.administrator.volleydongnao.http.interfaces.IHttpListener;
 import com.example.administrator.volleydongnao.http.interfaces.IHttpService;
 
@@ -11,27 +11,26 @@ import java.util.concurrent.FutureTask;
  */
 
 public class Volley {
+
     /**
      *
      * @param <T>  请求参数类型
      * @param <M>  响应参数类型
-     *           暴露给调用层
      */
-    public static <T,M> void sendRequest(T  requestInfo, String url,
-                                         Class<M> response, IDataListener dataListener)
+    public static <T,M> void sendRequest(T  requestData, String url,
+                                         Class<M> responseClass, IRequestCallBack requestCallBack)
     {
-        RequestHodler<T> requestHodler=new RequestHodler<>();
-        requestHodler.setUrl(url);
+        RequestInfo<T> requestInfo =new RequestInfo<>();
+        requestInfo.setUrl(url);
         IHttpService httpService=new JsonHttpService();
-        IHttpListener httpListener=new JsonDealLitener<>(response,dataListener);
-        requestHodler.setHttpService(httpService);
-        requestHodler.setHttpListener(httpListener);
-        HttpTask<T> httpTask=new HttpTask<>(requestHodler);
+        requestInfo.setHttpService(httpService);
+        IHttpListener httpListener=new JsonHttpListener<>(responseClass,requestCallBack);
+        requestInfo.setHttpListener(httpListener);
+        HttpTaskRunnable<T> httpTaskRunnableRunnable =new HttpTaskRunnable<>(requestInfo);
         try {
-            ThreadPoolManager.getInstance().execte(new FutureTask<Object>(httpTask,null));
+            ThreadPoolManager.getInstance().execute(new FutureTask<>(httpTaskRunnableRunnable, null));
         } catch (InterruptedException e) {
-            dataListener.onFail();
+            requestCallBack.onFail();
         }
     }
-
 }

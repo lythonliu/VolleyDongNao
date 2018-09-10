@@ -15,55 +15,53 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class ThreadPoolManager {
-    private static final String TAG ="dongnao" ;
+    private static final String TAG ="ThreadPoolManager" ;
     private static  ThreadPoolManager instance=new ThreadPoolManager();
 
-    private LinkedBlockingQueue<Future<?>> taskQuene=new LinkedBlockingQueue<>();
+    private LinkedBlockingQueue<Future<?>> linkedBlockingQueue =new LinkedBlockingQueue<>();
 
     private ThreadPoolExecutor threadPoolExecutor;
     public static ThreadPoolManager getInstance() {
-
         return instance;
     }
     private ThreadPoolManager()
     {
-        threadPoolExecutor=new ThreadPoolExecutor(4,10,10, TimeUnit.SECONDS,new ArrayBlockingQueue<Runnable>(4), handler);
-        threadPoolExecutor.execute(runable);
+        threadPoolExecutor=new ThreadPoolExecutor(4,10,10, TimeUnit.SECONDS,new ArrayBlockingQueue<Runnable>(4), rejectedExecutionHandler);
+        threadPoolExecutor.execute(runnable);
     }
 
-    private Runnable runable =new Runnable() {
+    private Runnable runnable =new Runnable() {
         @Override
         public void run() {
             while (true)
             {
-                FutureTask futrueTask=null;
-
+                FutureTask futureTask=null;
                 try {
                     /**
                      * 阻塞式函数
                      */
-                    Log.i(TAG,"等待队列     "+taskQuene.size());
-                    futrueTask= (FutureTask) taskQuene.take();
+                    Log.i(TAG,"等待队列     "+ linkedBlockingQueue.size());
+                    futureTask= (FutureTask) linkedBlockingQueue.take();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(futrueTask!=null)
+                if(futureTask!=null)
                 {
-                    threadPoolExecutor.execute(futrueTask);
+                    threadPoolExecutor.execute(futureTask);
                 }
                 Log.i(TAG,"线程池大小      "+threadPoolExecutor.getPoolSize());
             }
         }
     };
-    public <T> void execte(FutureTask<T> futureTask) throws InterruptedException {
-        taskQuene.put(futureTask);
+    public <T> void execute(FutureTask<T> futureTask) throws InterruptedException {
+        linkedBlockingQueue.put(futureTask);
     }
 
-    private RejectedExecutionHandler handler=new RejectedExecutionHandler() {
+    private RejectedExecutionHandler rejectedExecutionHandler =new RejectedExecutionHandler() {
         @Override
-        public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+        public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadPoolExecutor) {
             try {
-                taskQuene.put(new FutureTask<Object>(r,null) {
+                linkedBlockingQueue.put(new FutureTask<Object>(runnable,null) {
                 });
             } catch (InterruptedException e) {
                 e.printStackTrace();

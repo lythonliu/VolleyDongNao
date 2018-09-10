@@ -19,7 +19,7 @@ public interface IHttpService {
     /**
      * 执行获取网络
      */
-    void excute();
+    void execute();
 
     /**
      * 设置处理接口
@@ -33,6 +33,6 @@ public interface IHttpService {
      * byte[]  2
      *
      */
-    void setRequestData(byte[] requestData);
+    void setByteArray(byte[] byteArray);
 
 }

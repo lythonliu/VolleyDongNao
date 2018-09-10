@@ -7,7 +7,7 @@ import com.example.administrator.volleydongnao.http.interfaces.IHttpService;
  * Created by Administrator on 2017/1/13 0013.
  */
 
-public class RequestHodler<T> {
+public class RequestInfo<T> {
     /**
      * 执行下载类
      */
@@ -19,7 +19,7 @@ public class RequestHodler<T> {
     /**
      * 请求参数对应的实体
      */
-    private T requestInfo;
+    private T requestData;
 
     private String url;
 
@@ -39,12 +39,12 @@ public class RequestHodler<T> {
         this.httpListener = httpListener;
     }
 
-    public T getRequestInfo() {
-        return requestInfo;
+    public T getRequestData() {
+        return requestData;
     }
 
-    public void setRequestInfo(T requestInfo) {
-        this.requestInfo = requestInfo;
+    public void setRequestData(T requestData) {
+        this.requestData = requestData;
     }
 
     public String getUrl() {

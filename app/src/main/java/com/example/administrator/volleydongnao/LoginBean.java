@@ -3,7 +3,7 @@ package com.example.administrator.volleydongnao;
 /**
  * Created by Administrator on 2017/1/13 0013.
  */
-class LoginRespense
+class LoginBean
 {
     private int code;
     private String user_id;
